@@ -1,5 +1,8 @@
 var AWS = require('aws-sdk');
 
+console.log('dynamo endpoint...',process.env.DYNAMODB_ENDPOINT);
+console.log('redis endpoint...',process.env.REDIS_ENDPOINT);
+
 module.exports = {
   ENV_NAME: process.env.ENV_NAME,
 
@@ -7,7 +10,7 @@ module.exports = {
   REGION: process.env.REGION || 'us-east-1',
 
   REDIS_ENDPOINT: process.env.REDIS_ENDPOINT,
-  DYNAMODB_ENDPOINT: new AWS.Endpoint(process.env.DYNAMODB_ENDPOINT),
+  DYNAMODB_ENDPOINT: process.env.DYNAMODB_ENDPOINT,
 
   // Controls how often clients ping back and forth
   HEARTBEAT_TIMEOUT: 8000,
