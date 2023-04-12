@@ -1,9 +1,9 @@
-FROM node:9 AS build
+FROM public.ecr.aws/bitnami/node:14
 WORKDIR /srv
 ADD package.json .
 RUN npm install
 
-FROM node:9-slim
+FROM public.ecr.aws/bitnami/node:14
 COPY --from=build /srv .
 ADD . .
 EXPOSE 3000
