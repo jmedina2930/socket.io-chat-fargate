@@ -13,9 +13,9 @@ var app = express();
 app.use(compression());
 
 // Force redirect to HTTPS if the protocol was HTTP
-if (!process.env.LOCAL) {
-  app.use(enforce.HTTPS({ trustProtoHeader: true }));
-}
+// if (!process.env.LOCAL) {
+//   app.use(enforce.HTTPS({ trustProtoHeader: true }));
+// }
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
