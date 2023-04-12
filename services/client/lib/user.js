@@ -1,5 +1,7 @@
 var AWS = require('aws-sdk');
 var bcrypt = require('bcrypt');
+const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
+const sqsClient = new SQSClient({ region: "us-east-1" });
 var config = require('./config');
 
 function User() {
@@ -18,7 +20,7 @@ module.exports = new User();
   * @param {string} username - Username of the user
   * @param {string} password - The user's password
 **/
-User.prototype.fetchByUsername = async function(username) {
+User.prototype.fetchByUsername = async function (username) {
   let details = null;
 
   try {
@@ -45,7 +47,8 @@ User.prototype.fetchByUsername = async function(username) {
   *   @param {string} details.email
   *   @param {string} details.password
 **/
-User.prototype.create = async function(details) {
+User.prototype.create = async function (details) {
+  console.log('Creating new user', details);
   const existingAccount = await this.fetchByUsername(details.username);
 
   if (existingAccount) {
@@ -70,6 +73,23 @@ User.prototype.create = async function(details) {
         passwordHash: passwordHash
       }
     }).promise();
+    const params = {
+      // MessageAttributes: {
+      //   Author: {
+      //     DataType: "String",
+      //     StringValue: "Jonathan",
+      //   }
+      // },
+      MessageGroupId: 'test',
+      MessageBody: JSON.stringify({ message: details }),
+      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
+    };
+    const data = await sqsClient.send(new SendMessageCommand(params));
+    if (data) {
+      console.log("Success, message sent. MessageID:", data.MessageId);
+    } else {
+      console.log("Fail");
+    }
   } catch (e) {
     console.error(e);
 
@@ -86,7 +106,7 @@ User.prototype.create = async function(details) {
   *   @param {string} details.username
   *   @param {string} details.password
 **/
-User.prototype.authenticate = async function(details) {
+User.prototype.authenticate = async function (details) {
   const account = await this.fetchByUsername(details.username);
 
   if (!account) {

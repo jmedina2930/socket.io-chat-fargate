@@ -6,6 +6,7 @@
   "private": true,
   "license": "BSD",
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.312.0",
     "async": "^2.6.0",
     "aws-sdk": "2.262.1",
     "bcrypt": "^5.1.0",
