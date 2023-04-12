@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var express = require('express');
 var compression = require('compression');
 var path = require('path');
-// var enforce = require('express-sslify');
+var enforce = require('express-sslify');
 var config = require('./lib/config');
 
 var app = express();
