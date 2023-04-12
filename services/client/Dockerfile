@@ -1,4 +1,4 @@
-FROM public.ecr.aws/bitnami/node:14
+FROM public.ecr.aws/bitnami/node:14 AS build
 WORKDIR /srv
 ADD package.json .
 RUN npm install
