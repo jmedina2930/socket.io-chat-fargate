@@ -208,10 +208,10 @@ io.on('connection', function(socket) {
       });
     });
 
-    return callback(null, {
-      username: socket.username,
-      avatar: socket.avatar
-    });
+    // return callback(null, {
+    //   username: socket.username,
+    //   avatar: socket.avatar
+    // });
   });
 
   // Client wants to authenticate a user

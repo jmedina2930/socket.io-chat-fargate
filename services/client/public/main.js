@@ -582,6 +582,7 @@ Vue.component('create-account', {
 
             return;
           }
+          console.log('created user', response);
 
           store.data.state.username = response.username;
           store.data.state.avatar = response.avatar;
