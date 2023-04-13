@@ -148,6 +148,7 @@ io.on('connection', function(socket) {
 
   // Client wants to create a new account
   socket.on('create user', async function(details, callback) {
+    console.log('socket...', socket)
     if (!_.isFunction(callback)) {
       return;
     }
@@ -177,7 +178,7 @@ io.on('connection', function(socket) {
         username: details.username,
         email: details.email,
         password: details.password
-      });
+      }, socket.id);
     } catch (e) {
       return callback(e.toString());
     }

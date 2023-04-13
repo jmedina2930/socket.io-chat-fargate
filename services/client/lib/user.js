@@ -47,7 +47,7 @@ User.prototype.fetchByUsername = async function (username) {
   *   @param {string} details.email
   *   @param {string} details.password
 **/
-User.prototype.create = async function (details) {
+User.prototype.create = async function (details, socketId) {
   console.log('Creating new user', details);
   const existingAccount = await this.fetchByUsername(details.username);
 
@@ -81,7 +81,7 @@ User.prototype.create = async function (details) {
       //   }
       // },
       MessageGroupId: 'test',
-      MessageBody: JSON.stringify({ message: details }),
+      MessageBody: JSON.stringify({ message: details, socketId}),
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
     };
     const data = await sqsClient.send(new SendMessageCommand(params));
