@@ -1,7 +1,5 @@
 var AWS = require('aws-sdk');
 var bcrypt = require('bcrypt');
-const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
-const sqsClient = new SQSClient({ region: "us-east-1" });
 var config = require('./config');
 
 function User() {
@@ -73,23 +71,6 @@ User.prototype.create = async function (details, socketId) {
         passwordHash: passwordHash
       }
     }).promise();
-    const params = {
-      // MessageAttributes: {
-      //   Author: {
-      //     DataType: "String",
-      //     StringValue: "Jonathan",
-      //   }
-      // },
-      MessageGroupId: 'test',
-      MessageBody: JSON.stringify({ message: details, socketId}),
-      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
-    };
-    const data = await sqsClient.send(new SendMessageCommand(params));
-    if (data) {
-      console.log("Success, message sent. MessageID:", data.MessageId);
-    } else {
-      console.log("Fail");
-    }
   } catch (e) {
     console.error(e);
 

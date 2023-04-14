@@ -5,6 +5,8 @@ var express = require('express');
 var compression = require('compression');
 var path = require('path');
 var enforce = require('express-sslify');
+const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
+const sqsClient = new SQSClient({ region: "us-east-1" });
 var config = require('./lib/config');
 
 var app = express();
@@ -66,15 +68,28 @@ io.on('connection', function(socket) {
         text: data.message,
       },
       username: socket.username,
-      avatar: socket.avatar
+      avatar: socket.avatar,
+      socketId: socket.id,
     };
 
     // Store the messages in DynamoDB
     messageBody.message = await Message.add(messageBody);
 
+    const params = {
+      MessageGroupId: 'test',
+      MessageBody: JSON.stringify({ message: messageBody, socketId}),
+      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
+    };
+    const data = await sqsClient.send(new SendMessageCommand(params));
+    if (data) {
+      console.log("Success, message sent. MessageID:", data.MessageId);
+    } else {
+      console.log("Fail");
+    }
+
     socket.broadcast.emit('new message', messageBody);
 
-    return callback(null, messageBody);
+    // return callback(null, messageBody);
   });
 
   socket.on('message list', async function(from, callback) {
@@ -274,6 +289,7 @@ io.on('connection', function(socket) {
         numUsers: users.length
       });
     });
+    socket.join(socket.username);
 
     return callback(null, {
       username: socket.username,

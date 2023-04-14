@@ -409,6 +409,7 @@ Vue.component('message-input', {
           if (err) {
             return console.error(err);
           }
+          console.log('message sent', message);
 
           store.insertMessage(message);
           store.removeTyper({
