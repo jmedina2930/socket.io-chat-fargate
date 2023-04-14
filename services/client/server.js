@@ -80,9 +80,9 @@ io.on('connection', function(socket) {
       MessageBody: JSON.stringify({ message: messageBody, socketId}),
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
     };
-    const data = await sqsClient.send(new SendMessageCommand(params));
-    if (data) {
-      console.log("Success, message sent. MessageID:", data.MessageId);
+    const sqsRes = await sqsClient.send(new SendMessageCommand(params));
+    if (sqsRes) {
+      console.log("Success, message sent. MessageID:", sqsRes.MessageId);
     } else {
       console.log("Fail");
     }
