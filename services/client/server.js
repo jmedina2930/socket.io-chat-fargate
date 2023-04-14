@@ -355,6 +355,10 @@ io.on('connection', function(socket) {
       });
     }
   });
+
+  socket.on('test', function() {
+    console.log('test');
+  });
 });
 
 module.exports = server;
