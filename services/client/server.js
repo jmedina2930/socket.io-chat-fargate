@@ -77,7 +77,7 @@ io.on('connection', function(socket) {
 
     const params = {
       MessageGroupId: 'test',
-      MessageBody: JSON.stringify({ message: messageBody, socketId}),
+      MessageBody: JSON.stringify({ message: messageBody}),
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
     };
     const sqsRes = await sqsClient.send(new SendMessageCommand(params));
