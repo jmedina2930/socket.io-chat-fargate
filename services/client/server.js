@@ -372,7 +372,7 @@ io.on('connection', function(socket) {
     }
   });
 
-  socket.on('test', function() {
+  socket.on('broadcast', function() {
     console.log('test');
   });
 });

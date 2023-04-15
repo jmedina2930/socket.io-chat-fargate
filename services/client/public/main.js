@@ -641,6 +641,10 @@ socket.on('user left', function(left) {
   });
 });
 
+socket.on('broadcast', function(msg) {
+  console.log('broadcast', msg);
+});
+
 socket.on('presence', function(presence) {
   store.data.state.presentCount = presence.numUsers;
 });
