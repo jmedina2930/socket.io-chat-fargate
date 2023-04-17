@@ -290,6 +290,7 @@ io.on('connection', function(socket) {
       });
     });
     socket.join(socket.username);
+    console.log('socket...', socket.of("/").adapter.rooms)
 
     return callback(null, {
       username: socket.username,
@@ -372,8 +373,8 @@ io.on('connection', function(socket) {
     }
   });
 
-  socket.on('broadcast', function() {
-    console.log('test');
+  socket.on('broadcast', function(msg) {
+    console.log(msg);
   });
 });
 
