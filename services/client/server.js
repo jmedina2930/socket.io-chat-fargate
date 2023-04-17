@@ -290,7 +290,7 @@ io.on('connection', function(socket) {
       });
     });
     socket.join(socket.username);
-    console.log('socket...', socket.of("/").adapter.rooms)
+    console.log('socket...', io.of("/").adapter.rooms)
 
     return callback(null, {
       username: socket.username,
