@@ -80,11 +80,13 @@ io.on('connection', function(socket) {
       MessageBody: JSON.stringify({ message: messageBody}),
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/484602455671/backend_test.fifo',
     };
-    const sqsRes = await sqsClient.send(new SendMessageCommand(params));
-    if (sqsRes) {
-      console.log("Success, message sent. MessageID:", sqsRes.MessageId);
-    } else {
-      console.log("Fail");
+    if (!process.env.LOCAL){
+      const sqsRes = await sqsClient.send(new SendMessageCommand(params));
+      if (sqsRes) {
+        console.log("Success, message sent. MessageID:", sqsRes.MessageId);
+      } else {
+        console.log("Fail");
+      }
     }
 
     socket.broadcast.emit('new message', messageBody);
@@ -223,10 +225,10 @@ io.on('connection', function(socket) {
       });
     });
 
-    // return callback(null, {
-    //   username: socket.username,
-    //   avatar: socket.avatar
-    // });
+    return callback(null, {
+      username: socket.username,
+      avatar: socket.avatar
+    });
   });
 
   // Client wants to authenticate a user
@@ -371,10 +373,6 @@ io.on('connection', function(socket) {
         });
       });
     }
-  });
-
-  socket.on('broadcast', function(msg) {
-    console.log(msg);
   });
 });
 
