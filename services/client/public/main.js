@@ -405,13 +405,13 @@ Vue.component('message-input', {
           room: this.state.activeRoom,
           message: text
         },
-        function (err, message) {
+        function (err) {
           if (err) {
             return console.error(err);
           }
-          console.log('message sent', message);
+          // console.log('message sent', message);
 
-          store.insertMessage(message);
+          // store.insertMessage(message);
           store.removeTyper({
             room: self.state.activeRoom,
             username: self.state.username
@@ -645,11 +645,6 @@ socket.on('async res', function (message) {
   console.log('message sent', message);
 
   store.insertMessage(message);
-  store.removeTyper({
-    room: self.state.activeRoom,
-    username: self.state.username
-  });
-  store.data.state.lastTyping = 0;
 });
 
 socket.on('presence', function (presence) {
