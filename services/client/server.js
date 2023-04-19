@@ -91,7 +91,7 @@ io.on('connection', function(socket) {
 
     socket.broadcast.emit('new message', messageBody);
 
-    return callback(null);
+    // return callback(null);
   });
 
   socket.on('message list', async function(from, callback) {
