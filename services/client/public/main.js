@@ -405,13 +405,13 @@ Vue.component('message-input', {
           room: this.state.activeRoom,
           message: text
         },
-        function (err) {
+        function (err, message) {
           if (err) {
             return console.error(err);
           }
-          // console.log('message sent', message);
+          console.log('got response', message);
 
-          // store.insertMessage(message);
+          store.insertMessage(message);
           store.removeTyper({
             room: self.state.activeRoom,
             username: self.state.username
