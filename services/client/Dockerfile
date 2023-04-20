@@ -7,5 +7,5 @@ FROM public.ecr.aws/bitnami/node:14
 COPY --from=build /srv .
 ADD . .
 EXPOSE 3000
-ENV DEBUG=*
+ENV DEBUG=engine,socket.io*
 CMD ["node", "index.js"]
