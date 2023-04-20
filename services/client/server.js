@@ -48,6 +48,8 @@ io.on('connection', function(socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', async function(data, callback) {
+    console.log('new message...', data);
+    console.log('socket...', socket);
     if (!socket.authenticated) {
       // Don't allow people not authenticated to send a message
       return callback('Can\'t send a message until you are authenticated');
