@@ -20,7 +20,7 @@ if (!process.env.LOCAL) {
 }
 
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var io = require('custom-socket.io')(server);
 var redis = require('socket.io-redis');
 io.adapter(redis({ host: config.REDIS_ENDPOINT, port: 6379 }));
 
@@ -47,9 +47,8 @@ io.on('connection', function(socket) {
   });
 
   // when the client emits 'new message', this listens and executes
-  socket.on('new message', async function(data, callback) {
-    console.log('new message...', data);
-    console.log('socket...', socket);
+  socket.on('new message', async function(data, callback, packetId) {
+    console.log('new message...', data, packetId);
     if (!socket.authenticated) {
       // Don't allow people not authenticated to send a message
       return callback('Can\'t send a message until you are authenticated');
@@ -72,6 +71,7 @@ io.on('connection', function(socket) {
       username: socket.username,
       avatar: socket.avatar,
       socketId: socket.id,
+      packetId,
     };
 
     // Store the messages in DynamoDB
